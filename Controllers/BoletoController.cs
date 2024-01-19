@@ -50,15 +50,22 @@ public class BoletoController : Controller
 	[HttpGet("Id")]
 	public IActionResult RecuperaBoletoPorId(int Id)
 	{
-		var boleto = _contextoDb.Boletos.FirstOrDefault(boleto => boleto.Id == Id);
+		try
+		{
+			var boleto = _contextoDb.Boletos.FirstOrDefault(boleto => boleto.Id == Id);
+			if (boleto == null) return NotFound("Código não localizado.");
 
 
-		AjustesBoleto ajuste = new	AjustesBoleto(_contextoDb);
-		ajuste.VerificaVencimento(boleto);
+			AjustesBoleto ajuste = new AjustesBoleto(_contextoDb);
+			ajuste.VerificaVencimento(boleto);
 
 
-        if (boleto == null) return NotFound();
-		return Ok(boleto);
+			return Ok(boleto);
+		}
+		catch (Exception ex)
+		{
+			return StatusCode(500, new { error = ex.Message });
+		}
 	}
 
 

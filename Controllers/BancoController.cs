@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Projeto_CriaBoletosParaBancos.Dados;
 using Projeto_CriaBoletosParaBancos.Dtos;
 using Projeto_CriaBoletosParaBancos.Entidades;
@@ -18,11 +19,12 @@ public class BancoController : Controller
 	}
 
 
-	[HttpPost("Busca")]
+	[HttpPost("Cadastro")]
 	public IActionResult AdicionaBanco([FromBody] BancoDto bancoDto)
 	{
 		try
 		{
+
 			if (!ModelState.IsValid)
 			{
 				return BadRequest(ModelState);
@@ -37,6 +39,7 @@ public class BancoController : Controller
 				return CreatedAtAction(nameof(RecuperaBancoPorId),
 							new { codigoBanco = banco.CodigoBanco }, banco);
 			}
+
 		}
 		catch (Exception ex)
 		{
@@ -47,18 +50,34 @@ public class BancoController : Controller
 	[HttpGet("CodigoBanco")]
 	public IActionResult RecuperaBancoPorId(int CodigoBanco)
 	{
-
-		var banco = _contextoDb.Bancos.FirstOrDefault(banco => banco.CodigoBanco == CodigoBanco);
-		if (banco == null) return NotFound("Codigo não Localizado.");
-		return Ok(banco);
+		try
+		{
+			var banco = _contextoDb.Bancos.FirstOrDefault(banco => banco.CodigoBanco == CodigoBanco);
+			if (banco == null) return NotFound("Codigo não Localizado.");
+			return Ok(banco);
+		}
+		catch (Exception ex)
+		{
+			return StatusCode(500, new { error = ex.Message });
+		}
 	}
 
 	[HttpGet("Todos")]
 	public IActionResult RecuperaTodosOsBancos()
 	{
-		List<Banco> BancosList = new List<Banco>();
-		BancosList = _contextoDb.Bancos.ToList();
-		return Ok(BancosList);
+		try
+		{
+			List<Banco> BancosList = new List<Banco>();
+			BancosList = _contextoDb.Bancos.ToList();
+
+			if (BancosList == null) return NotFound();
+
+			return Ok(BancosList);
+		}
+		catch (Exception ex)
+		{
+			return StatusCode(500, new { error = ex.Message });
+		}
 	}
 
 }

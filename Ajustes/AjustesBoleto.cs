@@ -1,6 +1,4 @@
-﻿using AutoMapper;
-using Microsoft.EntityFrameworkCore;
-using Projeto_CriaBoletosParaBancos.Dados;
+﻿using Projeto_CriaBoletosParaBancos.Dados;
 using Projeto_CriaBoletosParaBancos.Entidades;
 using System.Linq;
 namespace Projeto_CriaBoletosParaBancos.Ajustes;
