@@ -12,9 +12,7 @@ Pois por segurança eu gero novas chaves automáticas de 12 em 12 horas.
 <h3>Gerado uma nova chave para testes.</h3>
 <p>Será necessário somente substituir a ConnectionString.</p>
 <p align="justify">
- "ConnectionStrings": {
-    "BoletoParaBancosConnection": "Server=aws.connect.psdb.cloud;Database=dbboletoparabancos;user=u6ocotvvhrzyh11owi85;password=pscale_pw_ItO6azNKGiWig6v6kVwIam9BjOY5HhKSEIUcbQVP4k2;SslMode=VerifyFull;"
-  },
+Fiz o Envio da nova chave pelo whatsapp. Pois por questão de segurança o GitGuardian , junto ao meu servidor na núvem , expiram a senha de acesso se colocado direto no Git
 </p>
 
 <p align="center">
