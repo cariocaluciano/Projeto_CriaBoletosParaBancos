@@ -25,11 +25,11 @@ public class AjustesBoleto
 
 
 			valorComJuros = CalculaJuros(boleto.Valor, juros);
-
+			
 
 			var boletoDbo = _contextoDb.Boletos.FirstOrDefault(b => b.Id == boleto.Id);
 
-			boletoDbo.Valor = valorComJuros;
+			boletoDbo.Valor = Math.Round(valorComJuros, 2);
 
 			_contextoDb.Boletos.Update(boletoDbo);
 			_contextoDb.SaveChanges();
