@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Projeto_CriaBoletosParaBancos.Ajustes;
 using Projeto_CriaBoletosParaBancos.Dados;
 using Projeto_CriaBoletosParaBancos.Dtos;
 using Projeto_CriaBoletosParaBancos.Entidades;
@@ -50,7 +51,13 @@ public class BoletoController : Controller
 	public IActionResult RecuperaBoletoPorId(int Id)
 	{
 		var boleto = _contextoDb.Boletos.FirstOrDefault(boleto => boleto.Id == Id);
-		if (boleto == null) return NotFound();
+
+
+		AjustesBoleto ajuste = new	AjustesBoleto(_contextoDb);
+		ajuste.VerificaVencimento(boleto);
+
+
+        if (boleto == null) return NotFound();
 		return Ok(boleto);
 	}
 

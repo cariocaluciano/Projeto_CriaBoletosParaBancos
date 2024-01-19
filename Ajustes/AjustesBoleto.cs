@@ -14,29 +14,35 @@ public class AjustesBoleto
 		_contextoDb = contextoDb;
 	}
 
-	public Boleto VerificaVencimento(Boleto boleto)
+	public void VerificaVencimento(Boleto boleto)
 	{
 		Decimal valorComJuros;
 
-		if (boleto.DataVencimento > DateTime.Now)
+		if (boleto.DataVencimento < DateTime.Now)
 		{
+
 			Decimal juros = RetornaPercentualJuros(boleto.BancoId);
+
 
 			valorComJuros = CalculaJuros(boleto.Valor, juros);
 
-			Boleto boletoAjustado = new Boleto { 
-			Nomepagador = 
-			};
-			
+
+			var boletoDbo = _contextoDb.Boletos.FirstOrDefault(b => b.Id == boleto.Id);
+
+			boletoDbo.Valor = valorComJuros;
+
+			_contextoDb.Boletos.Update(boletoDbo);
+			_contextoDb.SaveChanges();
+
 		}
 
 
 	}
 
-	public Decimal CalculaJuros(Decimal valor , Decimal Percentual) 
+	public Decimal CalculaJuros(Decimal valor, Decimal Percentual)
 	{
 		var juros = valor * Percentual;
-		Decimal valorAPagar = valor * juros;
+		Decimal valorAPagar = valor + juros;
 
 		return valorAPagar;
 	}
