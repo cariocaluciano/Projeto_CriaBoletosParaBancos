@@ -70,7 +70,7 @@ public class BancoController : Controller
 			List<Banco> BancosList = new List<Banco>();
 			BancosList = _contextoDb.Bancos.ToList();
 
-			if (BancosList == null) return NotFound();
+			if (BancosList == null) return NotFound("Não existem bancos cadastrados.");
 
 			return Ok(BancosList);
 		}
